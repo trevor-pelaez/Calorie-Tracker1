@@ -612,8 +612,8 @@ def settings():
 
 
 # This block only runs when starting the app directly with: python app.py
+init_db()
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
 
