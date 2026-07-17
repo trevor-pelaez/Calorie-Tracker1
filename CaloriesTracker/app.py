@@ -31,11 +31,11 @@ from flask import Flask, Response, flash, g, redirect, render_template, request,
 
 # APP_DIR points to the folder where this app.py file lives.
 # This keeps file paths stable even if the app is launched from PowerShell.
-APP_DIR = Path(file).resolve().parent
+APP_DIR = Path(__file__).resolve().parent
 
 # SQLite stores all data in one local file. If the file does not exist,
 # init_db() creates it when the app starts.
-DB_PATH = Path(os.environ.get("DB_PATH", "/tmp/calorietracker.db"))
+DB_PATH = APP_DIR / "calorietracker.db"
 
 # Flask is the lightweight web framework that handles routes, templates,
 # browser requests, and browser responses.
