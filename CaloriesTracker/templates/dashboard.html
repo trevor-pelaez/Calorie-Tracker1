@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% set title = 'Dashboard' %}
+{% set heading = 'Dashboard' %}
+
+{% block content %}
+{# Summary cards show today's calculated totals from SQLite. #}
+<div class="grid">
+    <div class="card stat"><div class="label">Today's Calories</div><div class="value">{{ '%.0f'|format(summary.calories) }}</div></div>
+    <div class="card stat"><div class="label">Daily Goal</div><div class="value">{{ goal }}</div></div>
+    <div class="card stat"><div class="label">Protein</div><div class="value">{{ '%.1f'|format(summary.protein) }}g</div></div>
+    <div class="card stat"><div class="label">Carbs</div><div class="value">{{ '%.1f'|format(summary.carbs) }}g</div></div>
+</div>
+
+<div class="card">
+    <h3>Goal Progress for {{ today.isoformat() }}</h3>
+    <p class="muted">This bar compares today's calories against the daily goal.</p>
+    <div class="progress"><div style="width: {{ percent }}%"></div></div>
+    <p>{{ percent }}% of daily goal</p>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <a class="button" href="{{ url_for('products') }}">Manage Products</a>
+        <a class="button" href="{{ url_for('intake') }}">Log Food</a>
+        <a class="button" href="{{ url_for('reports') }}">View Reports</a>
+    </div>
+    <div class="card">
+        <h3>Recent Daily Totals</h3>
+        <table>
+            <thead><tr><th>Date</th><th>Calories</th><th>Protein</th><th>Fat</th><th>Carbs</th></tr></thead>
+            <tbody>
+            {% for r in recent %}
+                <tr><td>{{ r.intake_date }}</td><td>{{ '%.1f'|format(r.calories) }}</td><td>{{ '%.1f'|format(r.protein) }}</td><td>{{ '%.1f'|format(r.fat) }}</td><td>{{ '%.1f'|format(r.carbs) }}</td></tr>
+            {% else %}
+                <tr><td colspan="5">No food has been logged recently.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

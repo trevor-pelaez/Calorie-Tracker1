@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% set title = 'Daily Intake' %}
+{% set heading = 'Daily Intake' %}
+
+{% block content %}
+<div class="card">
+    <h3>Select Date</h3>
+    {# GET form changes the page date without saving new food data. #}
+    <form method="get" class="form-row-4">
+        <div><label>Date</label><input type="date" name="date" value="{{ selected_date.isoformat() }}"></div>
+        <div><button type="submit">View</button></div>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Log Food</h3>
+    {# POST form saves a new food entry for the selected date. #}
+    <form method="post" class="form-row-4">
+        <input type="hidden" name="date" value="{{ selected_date.isoformat() }}">
+        <div>
+            <label>Food</label>
+            <select name="product_id" required>
+                <option value="">Choose...</option>
+                {% for p in products %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+            </select>
+        </div>
+        <div><label>Quantity (grams)</label><input name="quantity" type="number" step="0.1" min="0" required></div>
+        <div><button type="submit">Add Entry</button></div>
+    </form>
+</div>
+
+{# These cards show calculated totals for the selected date. #}
+<div class="grid">
+    <div class="card stat"><div class="label">Calories</div><div class="value">{{ '%.0f'|format(summary.calories) }}</div></div>
+    <div class="card stat"><div class="label">Protein</div><div class="value">{{ '%.1f'|format(summary.protein) }}g</div></div>
+    <div class="card stat"><div class="label">Fat</div><div class="value">{{ '%.1f'|format(summary.fat) }}g</div></div>
+    <div class="card stat"><div class="label">Carbs</div><div class="value">{{ '%.1f'|format(summary.carbs) }}g</div></div>
+</div>
+
+<div class="card">
+    <h3>Entries for {{ selected_date.isoformat() }}</h3>
+    <table>
+        <thead><tr><th>Food</th><th>Qty</th><th>Calories</th><th>Protein</th><th>Fat</th><th>Carbs</th><th></th></tr></thead>
+        <tbody>
+            {% for e in entries %}
+            <tr>
+                <td>{{ e.name }}</td>
+                <td>{{ e.quantity }}g</td>
+                <td>{{ '%.1f'|format(e.calories) }}</td>
+                <td>{{ '%.1f'|format(e.protein) }}</td>
+                <td>{{ '%.1f'|format(e.fat) }}</td>
+                <td>{{ '%.1f'|format(e.carbs) }}</td>
+                <td>
+                    <form class="inline-form" method="post" action="{{ url_for('delete_intake', intake_id=e.id) }}">
+                        <input type="hidden" name="date" value="{{ selected_date.isoformat() }}">
+                        <button class="danger" type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7">No entries for this date.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

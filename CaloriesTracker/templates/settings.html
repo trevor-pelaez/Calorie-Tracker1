@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% set title = 'Settings' %}
+{% set heading = 'Settings' %}
+
+{% block content %}
+<div class="card">
+    <h3>Daily Calorie Goal</h3>
+    {# This form updates the daily_goal value in the SQLite settings table. #}
+    <form method="post" class="form-row-4">
+        <div><label>Calories</label><input name="daily_goal" type="number" value="{{ goal }}" required></div>
+        <div><button type="submit">Save</button></div>
+    </form>
+</div>
+
+{% endblock %}

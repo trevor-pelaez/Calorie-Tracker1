@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or 'Calorie Tracker Lite' }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {#
+    If the user is logged in, show the full application layout with sidebar navigation.
+    If not logged in, show only the public login content block.
+    #}
+    {% if session.get('logged_in') %}
+    <div class="shell">
+        <aside class="sidebar">
+            <h1>Calorie Tracker</h1>
+            {# Main navigation links. url_for() safely generates route URLs from app.py. #}
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('products') }}">Products</a>
+                <a href="{{ url_for('intake') }}">Daily Intake</a>
+                <a href="{{ url_for('reports') }}">Reports</a>
+                <a href="{{ url_for('calculator') }}">Calculator</a>
+                <a href="{{ url_for('settings') }}">Settings</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <div class="topbar">
+                <div>
+                    <h2>{{ heading or title or 'Dashboard' }}</h2>
+                </div>
+                <div class="muted">Logged in as {{ session.get('username') }}</div>
+            </div>
+
+            {# Displays success/error messages from the previous action. #}
+            {% include '_messages.html' %}
+
+            {# Each page inserts its main content here. #}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    {% else %}
+    {% include '_messages.html' %}
+    {% block public_content %}{% endblock %}
+    {% endif %}
+</body>
+</html>

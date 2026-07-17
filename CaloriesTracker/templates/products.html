@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% set title = 'Products' %}
+{% set heading = 'Products' %}
+
+{% block content %}
+<div class="card">
+    <h3>Add Product</h3>
+    <p class="muted">Nutrition values are saved per 100 grams.</p>
+
+
+
+    
+    {# This form posts a new food product to the /products route. #}
+    <form method="post" class="form-row">
+        <div><label>Name</label><input name="name" required></div>
+        <div><label>Calories</label><input name="calories" type="number" step="0.1" value="0"></div>
+        <div><label>Protein</label><input name="protein" type="number" step="0.1" value="0"></div>
+        <div><label>Fat</label><input name="fat" type="number" step="0.1" value="0"></div>
+        <div><label>Carbs</label><input name="carbs" type="number" step="0.1" value="0"></div>
+        <div><button type="submit">Add</button></div>
+    </form>
+</div>
+
+
+
+
+<div class="card">
+    <h3>Food Products</h3>
+    <div class="input-group">
+        <input id="productSearch" type="search" placeholder="Search products you've added">
+    </div>
+    <table id="foodTable">
+        <thead><tr><th>Name</th><th>Calories</th><th>Protein</th><th>Fat</th><th>Carbs</th><th></th></tr></thead>
+        <tbody>
+            {# Loop through products loaded from SQLite. #}
+            {% for p in products %}
+            <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.calories }}</td>
+                <td>{{ p.protein }}</td>
+                <td>{{ p.fat }}</td>
+                <td>{{ p.carbs }}</td>
+                <td>
+                    {# Delete form sends a POST request so delete actions are not triggered by random links. #}
+                    <form class="inline-form" method="post" action="{{ url_for('delete_product', product_id=p.id) }}">
+                        <button class="danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">No products added yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        const searchBox = document.querySelector('#productSearch');
+        const productRows = document.querySelectorAll('#foodTable tbody tr');
+
+        if (searchBox) {
+            searchBox.addEventListener('input', function () {
+                const searchText = searchBox.value.toLowerCase();
+
+                productRows.forEach(function (row) {
+                    const rowText = row.textContent.toLowerCase();
+
+                    if (rowText.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
+</div>
+
+{% endblock %}
+

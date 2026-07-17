@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{#
+Login page.
+#}
+{% block public_content %}
+<div class="login-page">
+    <div class="card">
+        <div class="login-title">Calorie Tracker</div>
+
+        {# This form posts username/password back to the /login route in app.py. #}
+        <form method="post">
+            <label>Username</label>
+            <input name="username" value="{{ username }}">
+
+            <label>Password</label>
+            <input name="password" type="password" value="{{ password }}">
+
+            <button type="submit">Login</button>
+
+            <div class="signup-link">
+                Don't have an account? <a href="/signup">Signup</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

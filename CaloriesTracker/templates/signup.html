@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{#
+Signup page for creating a new user with password.
+#}
+{% block public_content %}
+<div class="signup-page">
+    <div class="card">
+        <div class="signup-title">Calorie Tracker</div>
+
+        {# This form is for registration of a new user. #}
+        <form method="post">
+            <label>Username</label>
+            <input name="username" value="{{ username }}">
+
+            <label>Password</label>
+            <input name="password" type="password" value="{{ password }}">
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <div class="signup-link">
+            Already have an account? <a href="/login">Login</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
