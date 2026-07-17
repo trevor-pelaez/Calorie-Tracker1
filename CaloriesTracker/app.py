@@ -299,6 +299,7 @@ def signup():
     return render_template("signup.html")
 
 
+#Method for logging in users. Checks if the username and password match the database and logs in if true.
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Show the login form and process login attempts."""
