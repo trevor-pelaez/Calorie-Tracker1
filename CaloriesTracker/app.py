@@ -35,7 +35,7 @@ APP_DIR = Path(__file__).resolve().parent
 
 # SQLite stores all data in one local file. If the file does not exist,
 # init_db() creates it when the app starts.
-DB_PATH = Path(os.environ.get("DB_PATH", "/tmp/calorietracker.db"))
+DB_PATH = APP_DIR / "calorietracker.db"
 
 # Flask is the lightweight web framework that handles routes, templates,
 # browser requests, and browser responses.
