@@ -64,6 +64,7 @@ def get_db() -> sqlite3.Connection:
         # Open the local SQLite database file.
         conn = sqlite3.connect(DB_PATH)
 
+
         # This lets rows behave like dictionaries, so templates can use row.name
         # instead of remembering column positions like row[0].
         conn.row_factory = sqlite3.Row
@@ -94,6 +95,7 @@ def init_db() -> None:
     not already exist, so it is safe to run multiple times.
     """
     db = sqlite3.connect(DB_PATH)
+    db.execute("PRAGMA foreign_keys = ON")
 
     # products stores food items and nutrition values per 100 grams.
     # daily_intakes stores each food entry logged for a date.
