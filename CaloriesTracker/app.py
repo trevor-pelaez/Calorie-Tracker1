@@ -36,7 +36,7 @@ APP_DIR = Path(__file__).resolve().parent
 
 # SQLite stores all data in one local file. If the file does not exist,
 # init_db() creates it when the app starts.
-DB_PATH = APP_DIR / "calorietracker.db"
+DB_PATH = APP_DIR / "calorietracker.sql"
 
 # Flask is the lightweight web framework that handles routes, templates,
 # browser requests, and browser responses.
@@ -63,7 +63,7 @@ def get_db() -> mysql.connector:
     """
     if "db" not in g:
         # Open the local SQLite database file.
-        conn = mysql.connect(DB_PATH)
+        conn = mysql.connector(DB_PATH)
 
 
         # This lets rows behave like dictionaries, so templates can use row.name
