@@ -55,7 +55,7 @@ DEMO_PASSWORD = "test"
 # Database helper functions
 # -----------------------------------------------------------------------------
 
-def get_db() -> mysql.Connection:
+def get_db() -> mysql.connector:
     """Return the current request's SQLite database connection.
 
     Flask's g object stores data for the current request only. This prevents the
