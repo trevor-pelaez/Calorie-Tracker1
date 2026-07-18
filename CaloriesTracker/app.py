@@ -20,6 +20,7 @@ from User import *
 from FemaleUser import *
 from MaleUser import *
 import os
+import mysql.connector
 
 
 
@@ -54,7 +55,7 @@ DEMO_PASSWORD = "test"
 # Database helper functions
 # -----------------------------------------------------------------------------
 
-def get_db() -> sqlite3.Connection:
+def get_db() -> mysql.Connection:
     """Return the current request's SQLite database connection.
 
     Flask's g object stores data for the current request only. This prevents the
@@ -62,12 +63,12 @@ def get_db() -> sqlite3.Connection:
     """
     if "db" not in g:
         # Open the local SQLite database file.
-        conn = sqlite3.connect(DB_PATH)
+        conn = mysql.connect(DB_PATH)
 
 
         # This lets rows behave like dictionaries, so templates can use row.name
         # instead of remembering column positions like row[0].
-        conn.row_factory = sqlite3.Row
+        conn.row_factory = mysql.Row
 
         # Save the connection for the rest of this web request.
         g.db = conn
