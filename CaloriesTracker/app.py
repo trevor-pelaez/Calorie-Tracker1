@@ -20,6 +20,7 @@ from User import *
 from FemaleUser import *
 from MaleUser import *
 import os
+import _mysql_connector
 import mysql.connector
 
 
@@ -36,7 +37,7 @@ APP_DIR = Path(__file__).resolve().parent
 
 # SQLite stores all data in one local file. If the file does not exist,
 # init_db() creates it when the app starts.
-DB_PATH = APP_DIR / "calorietracker.sql"
+DB_PATH = APP_DIR / "https://4cxgevio2lkdo4q5.private.blob.vercel-storage.com/calorietracker.sql?vercel-blob-valid-until=1784362663986&vercel-blob-delegation=eyJzdG9yZUlkIjoic3RvcmVfNGN4R2V2aU8yTGtEbzRxNSIsIm93bmVySWQiOiJ0ZWFtX0dQbGYyNmhZU2l2amZNUEFMbGV0T2czNSIsInBhdGhuYW1lIjoiKiIsIm9wZXJhdGlvbnMiOlsiZ2V0IiwiaGVhZCJdLCJ2YWxpZFVudGlsIjoxNzg0NDA1NzgxNTk0LCJpYXQiOjE3ODQzNjI1ODEwNTR9.Zcd_i4OnIKDjskmX9BfYziAH9abw7WMTkr-c7yQo3O0&vercel-blob-signature=95iYkfCTxpYy3wTHuM53vSmcy4QnPdM0gGqj3HLkKGs"
 
 # Flask is the lightweight web framework that handles routes, templates,
 # browser requests, and browser responses.
@@ -55,7 +56,7 @@ DEMO_PASSWORD = "test"
 # Database helper functions
 # -----------------------------------------------------------------------------
 
-def get_db() -> mysql.connector:
+def get_db() -> mysql.connector.connect:
     """Return the current request's SQLite database connection.
 
     Flask's g object stores data for the current request only. This prevents the
@@ -63,12 +64,12 @@ def get_db() -> mysql.connector:
     """
     if "db" not in g:
         # Open the local SQLite database file.
-        conn = mysql.connector(DB_PATH)
+        conn = mysql.connector.connect(DB_PATH)
 
 
         # This lets rows behave like dictionaries, so templates can use row.name
         # instead of remembering column positions like row[0].
-        conn.row_factory = mysql.Row
+        conn.row_factory = mysql.connector.Row
 
         # Save the connection for the rest of this web request.
         g.db = conn
