@@ -20,7 +20,6 @@ from User import *
 from FemaleUser import *
 from MaleUser import *
 import os
-import _mysql_connector
 import mysql.connector
 
 
